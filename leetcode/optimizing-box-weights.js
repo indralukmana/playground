@@ -38,21 +38,14 @@ Constraints
 - 1 <= arr[i] <= 10^5 (where 0 <= i < n)
  * */
 function minimalHeaviestSetA(arr) {
-  const sum = arr.reduce((a, b) => a + b);
-  const half = Math.floor(sum / 2);
-  const dp = Array(half + 1).fill(0);
-  for (let i = 0; i < arr.length; i++) {
-    for (let j = half; j >= arr[i]; j--) {
-      dp[j] = Math.max(dp[j], dp[j - arr[i]] + arr[i]);
-    }
-  }
+  const sorted = arr.sort((a, b) => a - b);
   const result = [];
-  let j = half;
-  for (let i = arr.length - 1; i >= 0; i--) {
-    if (j >= arr[i] && dp[j] === dp[j - arr[i]] + arr[i]) {
-      result.push(arr[i]);
-      j -= arr[i];
-    }
+  let sum = 0;
+  let i = sorted.length - 1;
+  while (sum <= sorted.reduce((a, b) => a + b) / 2) {
+    sum += sorted[i];
+    result.push(sorted[i]);
+    i--;
   }
-  return result;
+  return result.sort((a, b) => a - b);
 }
