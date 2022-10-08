@@ -1,5 +1,8 @@
 /****
  *
+ * NOT YET
+ * 
+ * 
 
 Amazon would like to know how much inventory exists in their closed inventory compartments. Given a string s consisting of items as * and closed compartments as an open and close |, an array of starting indices startIndices, and an array of ending indices endIndices, determine the number of items in closed compartments within the substring between the two indices, inclusive.
 
@@ -33,23 +36,14 @@ Each character of s is either * or |.
 
 function numberOfItems(s, startIndices, endIndices) {
   const result = [];
-  const stack = [];
-  const map = {};
-  for (let i = 0; i < s.length; i++) {
-    if (s[i] === '|') {
-      if (stack.length) {
-        map[stack.pop()] = i;
-      } else {
-        stack.push(i);
-      }
-    }
-  }
   for (let i = 0; i < startIndices.length; i++) {
     let count = 0;
-    for (let j = startIndices[i]; j <= endIndices[i]; j++) {
-      if (s[j] === '*' && map[j] <= endIndices[i]) {
+    let j = startIndices[i] - 1;
+    while (j < endIndices[i]) {
+      if (s[j] === '|') {
         count++;
       }
+      j++;
     }
     result.push(count);
   }
